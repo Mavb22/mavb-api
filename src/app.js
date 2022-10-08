@@ -21,5 +21,5 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(urlencoded({ extended: true }));
 app.use("/upload", express.static("upload"));
-app.use(router);
+app.use('/api',router);
 export default app;
