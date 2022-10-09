@@ -5,5 +5,6 @@ export const deletedir = (ruta) => {
         if (err) {
             return err;
         }
+        return 'Listo el proceso';
     })   
 }
