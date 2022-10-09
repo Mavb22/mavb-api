@@ -4,7 +4,7 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
-import router from "./index.routes.js";
+import router from './routes/index.routes.js';
 const app = express();
 const corsOptions = {
     origin: "http://localhost:3500",
