@@ -4,7 +4,7 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
-import router from "./routes/api.routes.js";
+import router from "./index.routes.js";
 const app = express();
 const corsOptions = {
     origin: "http://localhost:3500",
@@ -19,5 +19,5 @@ app.use(bodyParser.json());
 app.use(urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use("/upload", express.static("upload"));
-app.use(router);
+app.use("/api",router);
 export default app;
