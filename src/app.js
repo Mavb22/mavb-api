@@ -14,7 +14,7 @@ const corsOptions = {
 dotenv.config();
 app.set("name", process.env.APP_NAME);
 app.set("port", process.env.PORT || 3500);
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(urlencoded({ extended: true }));
 app.use(morgan("dev"));
