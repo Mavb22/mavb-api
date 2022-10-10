@@ -6,11 +6,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import router from './routes/index.routes.js';
 const app = express();
-const corsOptions = {
-    origin: "http://localhost:3500",
-    credentials: true,
-    optionsSuccessStatus: 200
-};
+
 dotenv.config();
 app.set("name", process.env.APP_NAME);
 app.set("port", process.env.PORT || 3500);
