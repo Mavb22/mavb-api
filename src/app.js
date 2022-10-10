@@ -6,7 +6,6 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import router from './routes/index.routes.js';
 const app = express();
-
 dotenv.config();
 app.set("name", process.env.APP_NAME);
 app.set("port", process.env.PORT || 3500);
@@ -16,7 +15,7 @@ app.use(urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use("/upload", express.static("upload"));
 app.get("/", (req, res) => {
-    res.json({mjs:"Hello World!" + process.env.APP_NAME});
+    res.send("Hello World! " + process.env.APP_NAME);
 })
 app.use("/api",router);
 export default app;
