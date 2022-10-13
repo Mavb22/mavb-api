@@ -3,7 +3,7 @@ export const GetUsers = async (req, res) => {
     const users = await User.find({ 
         confirmed: true,
         show:true
-    }, 'username name surname');
+    }, ' name surname username image');
     if (!users) {
         return res.status(400).json({ 
             error: "Users not found" 

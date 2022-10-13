@@ -8,16 +8,17 @@ import { Router } from "express";
 //           DeleteUser, 
 //           GetUsers } 
 //            from "../controllers/user.controller.js";
-
+import { GetUsers } from '../controllers/users/getusers.controler.js';
+import { Register } from '../controllers/users/register.controller.js';
+import {Confirm} from '../controllers/users/confirm-email.controller.js';
+import {Login} from '../controllers/users/login.controller.js'
 import {auth} from '../auth/auth.user.js';
-import { GetUsers } from "../controllers/users/getusers.controler.js";
-import { Register } from '../controllers/users/register.controller.js'
 const router = Router();
 // import {upload_image} from '../utils/save-storage.js';
-router.get("/", GetUsers);
+router.get("/",auth, GetUsers);
 router.post("/register",Register);
-// router.get("/confirm/:token", Confirm);
-// router.post("/login", Login);
+router.get("/confirm/:token", Confirm);
+router.post("/login", Login);
 // router.put("/change-password/:userId",auth, ChangePassword);
 // router.put("/forgot-password/:userId", ForgotPassword);
 // router.put("/update-data/:userId", auth, UpdateDataUser);
