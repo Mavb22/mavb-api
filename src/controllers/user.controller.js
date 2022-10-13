@@ -1,12 +1,13 @@
 import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import User from "../models/Users.js";
 import {registerSchema , loginSchema, changePasswordSchema} from '../utils/validate-schema.js';
 import {transporter} from '../services/mailer.js';
+dotenv.config();
 export const GetUsers = async (req, res) => {
     const users = await User.find({ 
-        confirmed: true,
-        show:true
+        confirmed: true
     }, 'username name surname');
     if (!users) {
         return res.status(400).json({ 
@@ -91,10 +92,10 @@ export const Confirm = async (req, res) => {
             user_token.confirmed = true;
             user_token.token = ' '
             await user_token.save();
-            // res.send('Thank you for confirming your email');
-            res.status(200).json({
-                message: `Thank you for confirming your email <a href="https://mavb-angular.herokuapp.com">Loggin</a>`,
-            });
+            res.send('Thank you for confirming your email');
+            // res.status(200).json({
+            //     message: "User confirmed successfully",
+            // });
         } else {
             res.status(400).send('User not found or confirmed');
         }
@@ -103,7 +104,7 @@ export const Confirm = async (req, res) => {
             error: error 
         });
     }
-}
+}//✅✅
 export const Login = async (req, res) => {
     const { error } = loginSchema.validate(req.body);
     const { email, password } = req.body;

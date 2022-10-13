@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt';
 import  User  from '../../models/Users.js';
 import {registerSchema} from '../../utils/validate-schema.js';
-import {transporter} from '../../services/mailer.js';
+import { transporter } from '../../services/mailer.js';
+import dotenv from 'dotenv';
+dotenv.config();
 export const Register = async (req, res) => {
     const { error } = registerSchema.validate(req.body);
     const {name,surname, username, email, password, confirm_password} = req.body;
@@ -49,17 +51,16 @@ export const Register = async (req, res) => {
                 from: 'Confirm email <mavb.gmail.com>', // sender address
                 to: email, // list of receivers
                 subject: "Confirm email", // Subject line
-                html: `
-                <b>Please click on the link to confirm email</b>
-                <a href="">${process.env.SEND_EMAIL}/api/users/confirm/${result.token}</a>`, // html body
+                html: `<b>Please click on the link to confirm email</b><a href="http://localhost:3000/api/users/confirm/${result.token}">http://localhost:3000/api/users/confirm/${result.token}</a>`, // html body
             });
             return res.status(200).json({
-                message: "User created, please check your email to confirm your account",
+                 message: "User created, please check your email to confirm your account",
             });
         }
     } catch (error) {
-        return res.status(400).json({
-            error: error.message
+        res.status(400).json({
+            error: error.message,       
         });
+        
     }
 }

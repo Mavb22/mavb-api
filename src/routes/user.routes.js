@@ -14,7 +14,7 @@ import { GetUsers } from "../controllers/users/getusers.controler.js";
 import { Register } from '../controllers/users/register.controller.js'
 const router = Router();
 // import {upload_image} from '../utils/save-storage.js';
-router.get("/", auth, GetUsers);
+router.get("/", GetUsers);
 router.post("/register",Register);
 // router.get("/confirm/:token", Confirm);
 // router.post("/login", Login);
