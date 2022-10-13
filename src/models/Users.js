@@ -44,6 +44,10 @@ const UsersSchema = new Schema({
     confirmed: {
         type: Boolean,
         default: false
+    },
+    show:{
+        type:Boolean,
+        default: true
     }
 });
 export default model("User", UsersSchema);
