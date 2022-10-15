@@ -15,7 +15,7 @@ app.use(urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use("/upload", express.static("upload"));
 app.get("/", (req, res) => {
-    res.json("Hello World! " + process.env.APP_NAME);
+    res.json({msj:"Hello World! " + process.env.APP_NAME});
 })
 app.use("/api",router);
 export default app;
