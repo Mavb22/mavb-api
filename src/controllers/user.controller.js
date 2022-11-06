@@ -5,155 +5,86 @@ import User from "../models/Users.js";
 import {registerSchema , loginSchema, changePasswordSchema} from '../utils/validate-schema.js';
 import {transporter} from '../services/mailer.js';
 dotenv.config();
-export const GetUsers = async (req, res) => {
-    const users = await User.find({ 
-        confirmed: true
-    }, 'username name surname');
-    if (!users) {
-        return res.status(400).json({ 
-            error: "Users not found" 
-        });
-    }
+// export const GetUsers = async (req, res) => {
+//     const users = await User.find({ 
+//         confirmed: true
+//     }, 'username name surname');
+//     if (!users) {
+//         return res.status(400).json({ 
+//             error: "Users not found" 
+//         });
+//     }
 
-    res.status(200).json({
-        message: "Users found",
-        users: {
-            users
-        }
-    });
-}//✅
-export const Register = async (req, res) => {
-    const { error } = registerSchema.validate(req.body);
-    const {name,surname, username, email, password, confirm_password} = req.body;
-    const err = []
-    if (error) {
-        return res.status(400).json({ 
-            error: error.details[0].message 
-        });
-    }
+//     res.status(200).json({
+//         message: "Users found",
+//         users: {
+//             users
+//         }
+//     });
+// }//✅
+// export const Register = async (req, res) => {
+//     const { error } = registerSchema.validate(req.body);
+//     const {name,surname, username, email, password, confirm_password} = req.body;
+//     const err = []
+//     if (error) {
+//         return res.status(400).json({ 
+//             error: error.details[0].message 
+//         });
+//     }
 
-    const emailExist = await User.findOne({email:email.toLowerCase()});
-    const usernameExist = await User.findOne({ username:username.toLowerCase()});
-    if (emailExist) {
-        err.push('Email already exist');
-    }
-    if (usernameExist) {
-        err.push('Username already exist');
-    }
-    if (err.length > 0) {
-        return res.status(403).json({ 
-            error: err 
-        });
-    }
-    try {
-        if (name && surname && username && email && password && confirm_password) {
-            if (password !== confirm_password) {
-                return res.status(400).json({ 
-                    error: "Password and confirm password are not the same" 
-                });
-            }
-            const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(password, salt);
-            const user = new User({
-                name : name.toLowerCase(),
-                surname: surname.toLowerCase(),
-                username: username.toLowerCase(),
-                email: email.toLowerCase(),
-                password: hashedPassword});
-            const result = await user.save();
-                if (!result) {
-                    return res.status(400).json({ 
-                        error: "User not created" 
-                    });
-                }
-            await transporter.sendMail({
-                from: 'Confirm email <mavb.gmail.com>', // sender address
-                to: email, // list of receivers
-                subject: "Confirm email", // Subject line
-                html: `
-                <b>Please click on the link to confirm email</b>
-                <a href="http://localhost:3000/api/users/confirm/${result.token}">http://localhost:3000/api/users/confirm/${result.token}</a>`, // html body
-            });
-            return res.status(200).json({
-                message: "User created, please check your email to confirm your account",
-            });
-        }
-    } catch (error) {
-        return res.status(400).json({
-            error: error.message
-        });
-    }
-}//✅✅
-export const Confirm = async (req, res) => {
-    const { token } = req.params;
-    const user_token = await User.findOne({ token });
-    try {
-        if(user_token){
-            user_token.confirmed = true;
-            user_token.token = ' '
-            await user_token.save();
-            res.send('Thank you for confirming your email');
-            // res.status(200).json({
-            //     message: "User confirmed successfully",
-            // });
-        } else {
-            res.status(400).send('User not found or confirmed');
-        }
-    } catch (error) {
-        return res.status(400).json({ 
-            error: error 
-        });
-    }
-}//✅✅
-export const Login = async (req, res) => {
-    const { error } = loginSchema.validate(req.body);
-    const { email, password } = req.body;
-    if (error) {
-        return res.status(400).json({ 
-            error: error.details[0].message 
-        });
-    }
-    try {
-        const user = await User.findOne({ email:email.toLowerCase() });
-        if (!email && !password) {
-            return res.status(400).json({ 
-                msj: "Email or password is empty" 
-            });
-        }
-        if (!user) {
-            return res.status(400).json({
-                message: "User not found"
-            });
-        }
-        if (!user.confirmed) {
-            return res.status(400).json({
-                message: "User not confirmed"
-            });
-        }
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({
-                message: "Password is incorrect"
-            });
-        }
-        const token = jwt.sign({
-            name: user.name,
-            surname: user.surname,
-            username: user.username,
-            email: user.email
-        }, process.env.JWT_SECRET, {
-            expiresIn: '7d'
-            });
-        return res.status(200).json({
-            message: "User logged in successfully",
-            token: token,
-        });
-    } catch (error) {
-        return res.status(400).json({ 
-            error: error 
-        });
-    }
-} //✅✅
+//     const emailExist = await User.findOne({email:email.toLowerCase()});
+//     const usernameExist = await User.findOne({ username:username.toLowerCase()});
+//     if (emailExist) {
+//         err.push('Email already exist');
+//     }
+//     if (usernameExist) {
+//         err.push('Username already exist');
+//     }
+//     if (err.length > 0) {
+//         return res.status(403).json({ 
+//             error: err 
+//         });
+//     }
+//     try {
+//         if (name && surname && username && email && password && confirm_password) {
+//             if (password !== confirm_password) {
+//                 return res.status(400).json({ 
+//                     error: "Password and confirm password are not the same" 
+//                 });
+//             }
+//             const salt = await bcrypt.genSalt(10);
+//             const hashedPassword = await bcrypt.hash(password, salt);
+//             const user = new User({
+//                 name : name.toLowerCase(),
+//                 surname: surname.toLowerCase(),
+//                 username: username.toLowerCase(),
+//                 email: email.toLowerCase(),
+//                 password: hashedPassword});
+//             const result = await user.save();
+//                 if (!result) {
+//                     return res.status(400).json({ 
+//                         error: "User not created" 
+//                     });
+//                 }
+//             await transporter.sendMail({
+//                 from: 'Confirm email <mavb.gmail.com>', // sender address
+//                 to: email, // list of receivers
+//                 subject: "Confirm email", // Subject line
+//                 html: `
+//                 <b>Please click on the link to confirm email</b>
+//                 <a href="http://localhost:3000/api/users/confirm/${result.token}">http://localhost:3000/api/users/confirm/${result.token}</a>`, // html body
+//             });
+//             return res.status(200).json({
+//                 message: "User created, please check your email to confirm your account",
+//             });
+//         }
+//     } catch (error) {
+//         return res.status(400).json({
+//             error: error.message
+//         });
+//     }
+// }//✅✅
+//  
 export const ChangePassword = async (req, res) => {
     const { error } = changePasswordSchema.validate(req.body);
     const {new_password, confirm_password} = req.body;

@@ -14,8 +14,9 @@ app.use(bodyParser.json());
 app.use(urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use("/upload", express.static("upload"));
+
 app.get("/", (req, res) => {
-    res.send("Hello World! " + process.env.PORT);
+    res.json({msj:'Hola mundo'});
 })
 app.use("/api",router);
-export default app;
+export default app; 
