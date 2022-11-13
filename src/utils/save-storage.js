@@ -18,5 +18,5 @@ const fileFilterImage = (req, file, cb) => {
     }
 }
 const maxFileSize = 3315 * 1024 * 1024;
-const uploadImage = multer({ storage: storage, limits: { fileSize: maxFileSize }, fileFilter: fileFilterImage });
+const uploadImage = multer({ storage: multer.memoryStorage(), limits: { fileSize: maxFileSize }, fileFilter: fileFilterImage });
 export const upload_image = uploadImage.single("image");

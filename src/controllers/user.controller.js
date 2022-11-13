@@ -289,8 +289,10 @@ export const DeleteUser = async (req, res) => {
 }//✅
 export const UpdateImage = async (req, res) => {
     console.log(req.file);
-    res.status(200).json({
-        message: "Listo"
-    });
+    if(req.file){
+        res.status(200).json({
+            message: "Listo"
+        });
+    }
 }
  

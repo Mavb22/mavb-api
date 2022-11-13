@@ -13,9 +13,11 @@ import { Register } from '../controllers/users/register.controller.js';
 import {Confirm} from '../controllers/users/confirm-email.controller.js';
 import {Login} from '../controllers/users/login.controller.js'
 import { ChangePassword } from "../controllers/users/change-password.controller.js";
+import { UpdateImage } from "../controllers/users/update-image.controller.js";
 import {auth} from '../auth/auth.user.js';
+import {uploadImage} from "../services/firebase.js"
 const router = Router();
-// import {upload_image} from '../utils/save-storage.js';
+import {upload_image} from '../utils/save-storage.js';
 router.post("/register",Register);
 router.get("/confirm/:token", Confirm);
 router.post("/login", Login);
@@ -28,5 +30,5 @@ router.put("/change-password/:userId",auth, ChangePassword);
 // router.post("reset-password/:token",ResetPassword);
 // router.put("/update-data/:userId", auth, UpdateDataUser);
 // router.delete("/delete-user/:userId", auth, DeleteUser);
-// router.put("/update-image/:userId",upload_image, UpdateImage);
+router.put("/update-image",upload_image,uploadImage,UpdateImage);
 export default router;
