@@ -1,8 +1,8 @@
+import dotenv from "dotenv";
 import express from "express";
 import { urlencoded } from "express";
-import morgan from "morgan";
-import dotenv from "dotenv";
 import cors from "cors";
+import morgan from "morgan";
 import bodyParser from "body-parser";
 import router from './routes/index.routes.js';
 const app = express();

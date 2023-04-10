@@ -9,7 +9,7 @@ export const transporter = nodemailer.createTransport({
       user: process.env.USER,
       pass: process.env.PASSWORD, 
     },
-  });
-transporter.verify((error, success) => {
-    console.log('Readey to send mails');
-})
+});
+transporter.verify().then(()=> {
+  console.log('Readey to send mails');
+}); 

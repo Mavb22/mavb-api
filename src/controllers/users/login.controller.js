@@ -34,13 +34,10 @@ export const Login = async (req, res) => {
             });
         }
         const token = jwt.sign({
-            name: user.name,
-            surname: user.surname,
             username: user.username,
-            email: user.email
         }, process.env.JWT_SECRET, {
-            expiresIn: '7d'
-            });
+            expiresIn: '30mins'
+        });
         return res.status(200).json({
             message: "User logged in successfully",
             token: token,

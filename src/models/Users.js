@@ -18,12 +18,14 @@ const UsersSchema = new Schema({
     username: {
         type: String,
         required: true,
+        unique: true,
         min: 5,
         max: 60
     },
     email: {
         type: String,
         required: true,
+        unique: true,
         min: 10,
         max: 255
     },
@@ -35,7 +37,7 @@ const UsersSchema = new Schema({
     },
     image : {
         type: String,
-        default:'/upload/image/usuario.png'
+        // default:'/upload/image/usuario.png'
     },
     token: {
         type: String,
@@ -45,7 +47,7 @@ const UsersSchema = new Schema({
         type: Boolean,
         default: false
     },
-    show:{
+    removed:{
         type:Boolean,
         default: true
     }

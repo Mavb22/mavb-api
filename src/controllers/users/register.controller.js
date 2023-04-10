@@ -40,16 +40,17 @@ export const Register = async (req, res) => {
                 email: email.toLowerCase(),
                 password: hashedPassword});
             const result = await user.save();
-                if (!result) {
-                    return res.status(400).json({ 
-                        error: "User not created" 
-                    });
-                }
+            if (!result) {
+                return res.status(400).json({ 
+                    error: "User not created" 
+                });
+            }
             await transporter.sendMail({
                 from: 'Confirm email <mavb.gmail.com>', // sender address
                 to: email, // list of receivers
                 subject: "Confirm email", // Subject line
-                html: `<b>Please click on the link to confirm email</b><a href="${process.env.SEND_EMAIL}api/users/confirm/${result.token}">${process.env.SEND_EMAIL}api/users/confirm/${result.token}</a>`, // html body
+                html: `<b>Please click on the link to confirm email</b>
+                <a href="${process.env.SEND_EMAIL}api/users/confirm/${result.token}">${process.env.SEND_EMAIL}api/users/confirm/${result.token}</a>`, // html body
             });
             return res.status(200).json({
                  message: "User created, please check your email to confirm your account",

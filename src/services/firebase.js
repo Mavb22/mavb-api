@@ -1,8 +1,8 @@
 import  admin from "firebase-admin";
-import { createRequire } from "module"
-const require = createRequire(import.meta.url)
-const serviceAccount = require("../config/firebase-key.json")
-const BUCKET = "mavb-efe0e.appspot.com";
+// import { createRequire } from "module"
+// const require = createRequire(import.meta.url)
+const serviceAccount = ("../config/firebase-key.json")
+const BUCKET = "api-mavb.appspot.com";
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     storageBucket: BUCKET,

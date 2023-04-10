@@ -17,6 +17,14 @@ const fileFilterImage = (req, file, cb) => {
         cb(null, false);
     }
 }
-const maxFileSize = 3315 * 1024 * 1024;
-const uploadImage = multer({ storage: multer.memoryStorage(), limits: { fileSize: maxFileSize }, fileFilter: fileFilterImage });
+const fileFilterMusic = (req, file, cb) => {
+    if (file.mimetype === "audio/mpeg") {
+        cb(null, true);
+    } else {
+        req.fileValidationError = "Invalid file type";
+        cb(null, false);
+    }
+}
+const maxFileSize = 3000 * 1024 * 1024;
+const uploadImage = multer({ storage: multer.memoryStorage(), limits: { fileSize: maxFileSize }, fileFilter: fileFilterMusic });
 export const upload_image = uploadImage.single("image");
